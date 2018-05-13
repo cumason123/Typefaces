@@ -15,31 +15,39 @@ def get_image_shape(filepath):
 def get_images_from_path(directory):
     """
     Gets and returns np.array of all images inside of a given directory
+
     :param directory: directory name
     :return: np.array of images
     """
     filenames = os.listdir(directory)
     filenames = [os.path.join(directory, filename) for filename in filenames]
 
-    return [cv2.imread(filename) for filename in filenames]
+    return [[cv2.imread(filename)] for filename in filenames]
 
 
 def get_train_data(root="train_data"):
     """
     Gets all the logits and labels train data from directory
-    :return: array of (logits, labels).T
+
+    :return: tuple where (logits, labels)
     """
     foldernames = os.listdir(root)
     foldernames = [os.path.join(root, foldername) for foldername in foldernames]
     encoding = one_hot_encoding(len(foldernames))
     data = [get_images_from_path(directory) for directory in foldernames]
-    return np.array([data, encoding]).T
+    labels = [[encoding[entry] for item in range(len(data[entry]))] for entry in range(len(data))]
+    return data, labels
 
 
 def one_hot_encoding(num):
     """
     Generates an array of one hot encoding based off of a num value
+
     :param num: number of possible classifications
     :return: if num = 3, returns [[1, 0, 0], [0, 1, 0], [0, 0, 1]]
     """
-    return [[0]*x + [1] + [0]*num-x-1 for x in range(num)]
+    return [[0]*x + [1] + [0]*(num-x-1) for x in range(num)]
+
+if __name__ == "__main__":
+    x, y = get_train_data(root="typefonts")
+    print(x)
