@@ -1,6 +1,7 @@
 from keras.layers import Conv2D, MaxPooling2D
 from keras.layers import Dense, Flatten
 from keras.models import Sequential
+from keras.models import load_model
 
 
 class CNN:
@@ -18,3 +19,13 @@ class CNN:
 
 
         self.cnn = model
+
+    def save_model(self):
+        model.save('model.h5')
+
+
+
+    def load_model(self):
+        new_model = load_model('model.h5')  # type: object
+
+
