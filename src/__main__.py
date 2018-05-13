@@ -1,1 +1,1 @@
-import cv2
+import ImageGathering.image_handling as image_handler
