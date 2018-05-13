@@ -6,7 +6,7 @@ from keras.models import load_model
 
 class CNN:
 
-    def __init__(self):
+    def __init__(self, input_dim):
         model = Sequential()
         model.add(Conv2D(32, kernel_size=(5, 5), strides=(1, 1),
                          activation='relu', input_shape=input_dim))
@@ -17,15 +17,15 @@ class CNN:
         model.add(Dense(256, kernel_initalizer='uniform', activation='relu'))
         model.add(Dense(3, kernel_initalizer='uniform', activation='relu'))
 
-
         self.cnn = model
 
+
     def save_model(self):
-        model.save('model.h5')
+        self.model.save('model.h5')
 
 
 
     def load_model(self):
-        new_model = load_model('model.h5')  # type: object
+        self.model = load_model('model.h5')  # type: object
 
 
