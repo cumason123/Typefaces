@@ -17,4 +17,4 @@ class CNN:
         model.add(Dense(3, kernel_initalizer='uniform', activation='relu'))
 
 
-        self.cnn = __init__()
+        self.cnn = model
