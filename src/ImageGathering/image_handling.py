@@ -19,9 +19,10 @@ def get_images_from_path(directory):
     :param directory: directory name
     :return: np.array of images
     """
+    # print(directory)
     filenames = os.listdir(directory)
     filenames = [os.path.join(directory, filename) for filename in filenames]
-
+    # print(filenames)
     return [[cv2.imread(filename)] for filename in filenames]
 
 
@@ -33,6 +34,7 @@ def get_train_data(root="train_data"):
     """
     foldernames = os.listdir(root)
     foldernames = [os.path.join(root, foldername) for foldername in foldernames]
+    # print(foldernames)
     encoding = one_hot_encoding(len(foldernames))
     data = [get_images_from_path(directory) for directory in foldernames]
     labels = [[encoding[entry] for item in range(len(data[entry]))] for entry in range(len(data))]
