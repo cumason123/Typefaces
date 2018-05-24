@@ -38,10 +38,12 @@ def get_train_data(root="train_data"):
     encoding = one_hot_encoding(len(foldernames))
     data = []
     labels = []
+    x=0
     for directory in foldernames:
         subData = get_images_from_path(directory)
         data += subData
-        print("Final Output: "+str(np.shape(data)))
+        labels += len(subData)*[encoding[x]]
+        x += 1
     return np.array(data), np.array(labels)
 
 
@@ -52,7 +54,7 @@ def one_hot_encoding(num):
     :param num: number of possible classifications
     :return: if num = 3, returns [[1, 0, 0], [0, 1, 0], [0, 0, 1]]
     """
-    return np.array([[0]*x + [1] + [0]*(num-x-1) for x in range(num)])
+    return [[0]*x + [1] + [0]*(num-x-1) for x in range(num)]
 
 if __name__ == "__main__":
     x, y = get_train_data(root="typefonts")

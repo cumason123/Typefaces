@@ -37,12 +37,8 @@ class cnn:
         self.model.add(Dense(3, kernel_initializer='uniform', activation='sigmoid'))
 
     def train(self, xtrain, ytrain):
-        print(np.shape(ytrain))
         self.model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
-        print("README: "+str(np.shape(xtrain)))
-        # xtrain = np.reshape(xtrain, (35, 100, 100, 3))
-        # ytrain = np.reshape(ytrain, (35, 100, 100, 3))
-        self.model.fit(xtrain, ytrain, epochs=1, batch_size=None)
+        self.model.fit(xtrain, ytrain, epochs=20, batch_size=None)
 
 
     def save_model(self):
