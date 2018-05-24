@@ -23,7 +23,7 @@ def get_images_from_path(directory):
     filenames = os.listdir(directory)
     filenames = [os.path.join(directory, filename) for filename in filenames]
     # print(filenames)
-    return [[cv2.imread(filename)] for filename in filenames]
+    return [cv2.imread(filename) for filename in filenames]
 
 
 def get_train_data(root="train_data"):
@@ -36,9 +36,13 @@ def get_train_data(root="train_data"):
     foldernames = [os.path.join(root, foldername) for foldername in foldernames]
     # print(foldernames)
     encoding = one_hot_encoding(len(foldernames))
-    data = [get_images_from_path(directory) for directory in foldernames]
-    labels = [[encoding[entry] for item in range(len(data[entry]))] for entry in range(len(data))]
-    return data, labels
+    data = []
+    labels = []
+    for directory in foldernames:
+        subData = get_images_from_path(directory)
+        data += subData
+        print("Final Output: "+str(np.shape(data)))
+    return np.array(data), np.array(labels)
 
 
 def one_hot_encoding(num):
@@ -48,7 +52,7 @@ def one_hot_encoding(num):
     :param num: number of possible classifications
     :return: if num = 3, returns [[1, 0, 0], [0, 1, 0], [0, 0, 1]]
     """
-    return [[0]*x + [1] + [0]*(num-x-1) for x in range(num)]
+    return np.array([[0]*x + [1] + [0]*(num-x-1) for x in range(num)])
 
 if __name__ == "__main__":
     x, y = get_train_data(root="typefonts")

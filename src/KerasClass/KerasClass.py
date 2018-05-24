@@ -24,41 +24,32 @@ import numpy as np
 
 class cnn:
 
-    def __init__(self, input_dim):
-        model = Sequential()
-        model.add(Conv2D(32, kernel_size=(3, 3), strides=(1, 1), padding='same',
+    def __init__(self):
+        self.model = Sequential()
+        self.model.add(Conv2D(32, kernel_size=(3, 3), strides=(1, 1), padding='same',
                          input_shape=(100, 100, 3),
                          activation='relu'))
-        model.add(Conv2D(64, (5, 5), activation='relu'))
-        model.add(MaxPooling2D())
-        model.add(Conv2D(64, (5, 5), activation='relu'))
-        model.add(Flatten())
-        model.add(Dense(256, kernel_initializer='uniform', activation='relu'))
-        model.add(Dense(3, kernel_initializer='uniform', activation='softmax'))
+        self.model.add(Conv2D(64, (5, 5), activation='relu'))
+        self.model.add(MaxPooling2D())
+        self.model.add(Conv2D(64, (5, 5), activation='relu'))
+        self.model.add(Flatten())
+        self.model.add(Dense(256, kernel_initializer='uniform', activation='relu'))
+        self.model.add(Dense(3, kernel_initializer='uniform', activation='sigmoid'))
 
-        self.cnn = model
-
-    def train(self, train_batches, validate_batches):
-        model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
-        model.fit(train_batches, steps_per_epoch=4, validation_data=validate_batches, validation_steps=4, epochs=5,
-                  verbose=20)
-
-
-
+    def train(self, xtrain, ytrain):
+        print(np.shape(ytrain))
+        self.model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
+        print("README: "+str(np.shape(xtrain)))
+        # xtrain = np.reshape(xtrain, (35, 100, 100, 3))
+        # ytrain = np.reshape(ytrain, (35, 100, 100, 3))
+        self.model.fit(xtrain, ytrain, epochs=1, batch_size=None)
 
 
-
-
+    def save_model(self):
+        self.model.save('model.h5')
 
 
 
-
-
-def save_model(self):
-    self.model.save('model.h5')
-
-
-
-def load_model(self):
-    self.model = load_model('model.h5')
+    def load_model(self):
+        self.model = load_model('model.h5')
 
